@@ -1,0 +1,30 @@
+export interface Listing {
+  booli_id: number;
+  listing_type: "bostad" | "annons";
+  url: string;
+  address: string | null;
+  neighbourhood: string | null;
+  municipality: string | null;
+  postal_code: string | null;
+  brf_name: string | null;
+  living_area_m2: number | null;
+  rooms: number | null;
+  floor: number | null;
+  total_floors: number | null;
+  construction_year: number | null;
+  list_price: number | null;
+  price_per_m2: number | null;
+  monthly_fee: number | null;
+  operating_cost: number | null;
+  booli_estimate_low: number | null;
+  booli_estimate_mid: number | null;
+  booli_estimate_high: number | null;
+  has_balcony: boolean;
+  has_patio: boolean;
+  has_elevator: boolean;
+  has_fireplace: boolean;
+  has_storage: boolean;
+  published_date: string | null;
+  showing_date: string | null;
+  scraped_at: string;
+}

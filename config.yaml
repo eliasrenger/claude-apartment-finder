@@ -1,0 +1,13 @@
+search:
+  areaIds: [1, 95, 76, 18]
+  extendAreas: 2
+  objectType: "Lägenhet"
+  minListPrice: 1500000
+  maxListPrice: 6000000
+  minLivingArea: 25
+  maxLivingArea: 100
+  minRooms: 1.5
+  maxRooms: 4
+
+analysis:
+  scoreThreshold: 70

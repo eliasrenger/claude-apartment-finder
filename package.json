@@ -1,0 +1,15 @@
+{
+  "name": "claude-apartment-finder",
+  "private": true,
+  "scripts": {
+    "scrape": "bun run scripts/scraper/index.ts"
+  },
+  "dependencies": {
+    "playwright": "^1.52.0",
+    "yaml": "^2.7.1",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
