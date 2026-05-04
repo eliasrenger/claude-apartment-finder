@@ -38,8 +38,8 @@ export function loadSearchConfig(path: string): SearchConfig {
 }
 
 const AnalysisConfigSchema = z.object({
-  scoreThreshold: z.number().int().min(0).max(100).default(70),
-  maxSteps: z.number().int().positive().default(20),
+  notifyThreshold: z.number().int().min(0).max(100).default(70),
+  watchThreshold: z.number().int().min(0).max(100).default(50),
 });
 
 export type AnalysisConfig = z.infer<typeof AnalysisConfigSchema>;

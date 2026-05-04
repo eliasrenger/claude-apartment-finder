@@ -10,4 +10,5 @@ search:
   maxRooms: 4
 
 analysis:
-  scoreThreshold: 70
+  notifyThreshold: 70
+  watchThreshold: 50
