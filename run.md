@@ -20,8 +20,10 @@ Execute the following steps in order.
 ## 1. Update the repository
 
 ```bash
-git pull
+git stash && git pull --rebase && git stash pop
 ```
+
+This stashes any local agent-managed files (memory, state, listings) before pulling, then restores them. Your pushed changes to `CLAUDE.md`, `config.yaml`, `run.md`, and `scripts/` are always picked up cleanly.
 
 ## 2. Install dependencies
 

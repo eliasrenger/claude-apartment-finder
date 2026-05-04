@@ -6,6 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A daily autonomous agent that scrapes new Booli listings, scores them for livability and financial potential, researches promising ones in depth, and notifies the user via Discord. See `run.md` for the daily execution sequence and `README.md` for a full overview.
 
+## Boundaries
+
+Allowed Bash scope is limited to what `run.md` requires: `git`, `bun`, `bunx`, and writing to files within this project directory. Do not install system packages, modify anything outside the project directory, or run commands not listed in `run.md`. If a step fails, log the error to the daily log, notify the user via Discord:
+```bash
+echo "⚠️ Apartment agent run failed at step: <step name>\nError: <brief description>" | bun run scripts/notifier/send.ts
+```
+Then stop — do not attempt to repair the environment.
+
+If a useful action falls outside the permitted scope (e.g. a new command or tool would improve the run), do not attempt it. Instead send a Discord message explaining what you wanted to do and why, so the user can review and add it to the allowed list:
+```bash
+echo "💡 Agent permission request: <what action>\nReason: <why it would help>" | bun run scripts/notifier/send.ts
+```
+
 ## Commands
 
 ```bash
