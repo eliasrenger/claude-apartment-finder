@@ -18,10 +18,12 @@ fi
 
 cd "$PROJECT_DIR"
 
-# Run Claude — output and errors go to the daily log
-/home/ubuntu/.claude/local/claude \
+CLAUDE_BIN="${CLAUDE_BIN:-$(which claude)}"
+
+# Run Claude — output goes to log and terminal
+"$CLAUDE_BIN" \
   -p "$(cat run.md)" \
   --dangerously-skip-permissions \
-  >> "$LOG_FILE" 2>&1
+  2>&1 | tee -a "$LOG_FILE"
 
 echo "=== Run finished at $(date -u +%Y-%m-%dT%H:%M:%SZ) ===" >> "$LOG_FILE"
