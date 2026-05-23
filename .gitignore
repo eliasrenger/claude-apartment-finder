@@ -1,1 +1,12 @@
 node_modules/
+
+# Credentials
+.env
+
+# Run-generated data (populated during agent runs, not part of the repo)
+state/
+listings/
+memory/market.md
+memory/macro.md
+memory/calibration.md
+/tmp/listings.json
