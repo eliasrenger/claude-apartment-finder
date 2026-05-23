@@ -10,7 +10,7 @@ claude -p "$(cat run.md)" --dangerously-skip-permissions
 
 For the cron entry (runs at 07:00 daily):
 ```
-0 7 * * * cd /Users/eliasrenger/CodeProjects/claude-apartment-finder && claude -p "$(cat run.md)" --dangerously-skip-permissions
+0 5 * * * cd /home/elias/claude-apartment-finder && bash scripts/run-daily.sh
 ```
 
 ---
@@ -22,8 +22,6 @@ Execute the following steps in order.
 ```bash
 git stash && git pull --rebase && git stash pop
 ```
-
-This stashes any local agent-managed files (memory, state, listings) before pulling, then restores them. Your pushed changes to `CLAUDE.md`, `config.yaml`, `run.md`, and `scripts/` are always picked up cleanly.
 
 ## 2. Install dependencies
 
@@ -38,48 +36,74 @@ bunx playwright install chromium
 bun run scripts/scraper/index.ts > /tmp/listings.json
 ```
 
-Outputs all new listings (not in `state/last_run.json`) as a JSON array to `/tmp/listings.json`. If the file is empty or the scraper errors, check for a block signal and stop the run — do not proceed with stale data.
+Outputs all new listings (not in `state/last_run.json`) as a JSON array to `/tmp/listings.json`. If the file is empty or the scraper errors, check for a block signal and stop — do not proceed with stale data.
 
 ## 4. Load context
 
-Read the following before evaluating any listings:
-- `CLAUDE.md` — scoring rubric, research checklist, output formats
+Read the following once and hold it in context — you will pass summaries to subagents, do not tell subagents to read these files themselves:
 - `config.yaml` — `notifyThreshold` and `watchThreshold`
-- `memory/preferences.md` — user preferences from past feedback
+- `memory/preferences.md` — user preferences
 - `memory/market.md` — area pricing trends and comps
-- `memory/macro.md` — interest rate and macro context
+- `memory/macro.md` — interest rate and macro context (note the date of last update)
 - `memory/calibration.md` — how past picks played out
 
-## 5. Initial scoring
+## 5. Pre-filter
 
-For each listing in `/tmp/listings.json`, apply the financial and livability rubric from `CLAUDE.md` using only the scraped data. Assign a preliminary score 0–100. This determines which listings receive deep research.
+Read `/tmp/listings.json`. For each listing, apply a quick score using only the scraped data and the rubric in `.claude/skills/evaluate-listing/SKILL.md`.
 
-## 6. Deep research
+- **Score clearly below `watchThreshold`** — append a short entry to `listings/skipped/YYYY-MM-DD.md` and move on. No subagent needed.
+- **Score at or above `watchThreshold`** — queue for subagent evaluation.
 
-For every listing with a preliminary score ≥ `watchThreshold`, run the full research checklist from `CLAUDE.md`:
+After scoring all listings, if the queue exceeds `maxEvaluations`, keep only the top `maxEvaluations` by pre-filter score and skip the rest (log them in the skipped file with reason "below cap"). This caps the number of subagents spawned per run regardless of how many listings are scraped.
 
-1. **BRF economy** — search for `"<brf_name>" årsredovisning`, extract debt per apartment, fee trend, maintenance fund, planned renovations
-2. **Realtor page** — fetch the listing URL for the full description, renovation details, floor plan notes, and showing times
-3. **Area trends** — search for recent sold comps in the neighbourhood, overbidding ratios, and development news
-4. **Macro** — check if `memory/macro.md` is stale (>7 days); if so, search for current Riksbanken rate and Stockholm market forecasts and update the file
+## 6. Spawn evaluation subagents
 
-Adjust the preliminary score based on research findings before routing.
+For all queued listings, spawn one subagent per listing **in parallel** (all in the same turn). Each subagent receives a self-contained prompt — do not tell it to read files from disk.
 
-## 7. Route each listing
+The prompt for each subagent must include:
 
-**Final score ≥ `notifyThreshold`:**
-- Write full write-up to `listings/notified/YYYY-MM-DD-<booli_id>.md` using the format in `CLAUDE.md`
-- Send Discord notification:
-  ```bash
-  echo "<formatted message>" | bun run scripts/notifier/send.ts
-  ```
+(Use today's date from your system context wherever `<today>` appears below.)
 
-**Final score ≥ `watchThreshold` (but below notify):**
-- Create or update `listings/watchlist/<booli_id>.md`
+```
+Read and follow the skill at .claude/skills/evaluate-listing/SKILL.md.
+
+## Today's date
+<today>
+
+## Listing data
+<paste the full JSON object for this listing>
+
+## User preferences
+<paste the full content of memory/preferences.md>
+
+## Market context
+<from memory/market.md: include the table header + note, then only the row(s) where Area matches this listing's neighbourhood or municipality, then only the area signals section for that neighbourhood if one exists. Omit all other rows and signal sections.>
+
+## Thresholds
+- notifyThreshold: <value from config.yaml>
+- watchThreshold: <value from config.yaml>
+
+## Macro context
+Last updated: <date from memory/macro.md in YYYY-MM-DD format>
+<paste the full content of memory/macro.md>
+```
+
+Wait for all subagents to complete before proceeding.
+
+## 7. Route results
+
+For each subagent result (a JSON object per the evaluate-listing skill output format):
+
+**`route: notify`:**
+- The subagent has already written the write-up file (path is in the `writeup` field). Verify the file exists.
+- Send notification using the skill at `.claude/skills/notify-user/SKILL.md`
+
+**`route: watch`:**
+- The subagent has already written the watchlist file (path is in the `writeup` field). Verify the file exists.
 - Update `state/watchlist.json` with the listing ID and current price
 
-**Below `watchThreshold`:**
-- Append a short entry to `listings/skipped/YYYY-MM-DD.md`
+**`route: skip` or `disqualified: true`:**
+- Append a short entry to `listings/skipped/YYYY-MM-DD.md` with the score and reason
 
 ## 8. Update state
 
@@ -94,8 +118,8 @@ Merge today's `booli_id` values with those already in `state/last_run.json`:
 
 ## 9. Update memory
 
-After routing all listings, update relevant memory files if new signals were observed:
-- New area price/m² data or overbidding pattern → `memory/market.md`
-- Macro shift → `memory/macro.md`
-- User feedback received since last run → `memory/preferences.md`
-- Watched listing sold or notified listing rejected by user → `memory/calibration.md`
+After routing all results, apply any updates from subagent findings:
+- If any result includes `macro_update` → overwrite the body of `memory/macro.md`, keeping the `## Last updated: YYYY-MM-DD` header set to today's date
+- If any result includes `area_update` → upsert the row for that area in the `memory/market.md` table, updating the median, source, and `Last researched` date. If the area is not yet in the table, add a new row.
+- If user feedback was received since last run → update `memory/preferences.md`
+- If a watched listing sold or a notified listing was rejected → update `memory/calibration.md`

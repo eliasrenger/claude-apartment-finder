@@ -11,4 +11,5 @@ search:
 
 analysis:
   notifyThreshold: 70
-  watchThreshold: 50
+  watchThreshold: 60
+  maxEvaluations: 8
