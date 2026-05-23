@@ -1,0 +1,19 @@
+{
+  "skill_name": "evaluate-listing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Evaluate this Booli apartment listing and determine whether to notify, watch, or skip it.\n\nListing data:\n```json\n{\n  \"booli_id\": 7234891,\n  \"address\": \"Karlavägen 12, 114 31 Stockholm\",\n  \"list_price\": 4620000,\n  \"price_per_m2\": 62432,\n  \"monthly_fee\": 5100,\n  \"living_area_m2\": 74,\n  \"rooms\": 3,\n  \"floor\": 3,\n  \"total_floors\": 5,\n  \"elevator\": true,\n  \"construction_year\": 1932,\n  \"balcony\": true,\n  \"brf_name\": \"BRF Karlaplan 12\",\n  \"neighbourhood\": \"Östermalm\",\n  \"municipality\": \"Stockholm\",\n  \"booli_estimate_low\": 4400000,\n  \"booli_estimate_mid\": 4620000,\n  \"booli_estimate_high\": 4850000,\n  \"url\": \"https://www.booli.se/annons/7234891\",\n  \"days_active\": 91,\n  \"description\": \"Välplanerad 3-rumslägenhet i välskött 30-talshus vid Karlaplan. Kök renoverat 2015. Västvändb balkong. Hög standard på fastighetens gemensamma utrymmen. Föreningen välskött med låg belåning. Visning på begäran.\"\n}\n```\n\nUser preferences:\n- Requires green or red line subway within 10 min walk AND grocery store within 10 min walk\n- Areas of extra interest: Vasastan, Gröndal, Reimersholme, Hornstull, Karlaplan, Gärdet\n- notifyThreshold: 70, watchThreshold: 50\n\nMarket context:\n- No area medians recorded yet for Östermalm or any nearby neighbourhood\n- Macro data: not recently updated",
+      "expected_output": "Skill investigates why this listing has sat 91 days (autonomous research trigger). Route and score reflect what the research reveals — either motivated seller signal or a discovered issue. research.transit_nearest_station populated. days_active 91 explicitly noted in analysis.",
+      "files": [],
+      "expectations": []
+    },
+    {
+      "id": 2,
+      "prompt": "Evaluate this Booli apartment listing and determine whether to notify, watch, or skip it.\n\nListing data:\n```json\n{\n  \"booli_id\": 7345672,\n  \"address\": \"Torkelsgatan 14, 117 23 Stockholm\",\n  \"list_price\": 5472000,\n  \"price_per_m2\": 76000,\n  \"monthly_fee\": 4050,\n  \"living_area_m2\": 72,\n  \"rooms\": 3,\n  \"floor\": 4,\n  \"total_floors\": 6,\n  \"elevator\": true,\n  \"construction_year\": 1963,\n  \"balcony\": true,\n  \"brf_name\": \"BRF Torkeln\",\n  \"neighbourhood\": \"Hornstull\",\n  \"municipality\": \"Stockholm\",\n  \"booli_estimate_low\": 5200000,\n  \"booli_estimate_mid\": 5650000,\n  \"booli_estimate_high\": 6100000,\n  \"url\": \"https://www.booli.se/annons/7345672\",\n  \"days_active\": 18,\n  \"description\": \"Välplanerad 3-rumslägenhet med fantastisk planlösning och västvändb balkong med öppet läge i eftertraktade Hornstull. Stor sällskapsyta i kombination med avskilt sovrum. Föreningen planerar stambyte under 2026–2027. Underhållsfonden är begränsad. Låg månadsavgift. Tunnelbana (Hornstull, T13) och mataffär inom 5 minuters promenad.\"\n}\n```\n\nUser preferences:\n- Requires green or red line subway within 10 min walk AND grocery store within 10 min walk\n- Areas of extra interest: Vasastan, Gröndal, Reimersholme, Hornstull, Karlaplan, Gärdet\n- notifyThreshold: 70, watchThreshold: 50\n\nMarket context:\n- Hornstull/Södermalm: approximate sold price median ~80,000 SEK/m² based on recent sold listings\n- Macro data: not recently updated",
+      "expected_output": "route=skip, disqualified=true. Skill calculates that 76,000 + 4,000-7,000 SEK/m² stambyte cost = 80,000-83,000 SEK/m², at or above area median of 80,000. Hard disqualifier fires: stambyte within 3 years + limited maintenance fund. disqualifier_reason references stambyte and reserve fund.",
+      "files": [],
+      "expectations": []
+    }
+  ]
+}
