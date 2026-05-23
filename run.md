@@ -58,7 +58,7 @@ After scoring all listings, if the queue exceeds `maxEvaluations`, keep only the
 
 ## 6. Spawn evaluation subagents
 
-For all queued listings, spawn one subagent per listing **in parallel** (all in the same turn). Each subagent receives a self-contained prompt — do not tell it to read files from disk.
+For all queued listings, spawn one subagent per listing **in parallel** (all in the same turn). Use `model: sonnet` for every subagent. Each subagent receives a self-contained prompt — do not tell it to read files from disk.
 
 The prompt for each subagent must include:
 
