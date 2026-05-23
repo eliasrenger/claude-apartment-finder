@@ -6,17 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A daily autonomous agent that scrapes new Booli listings, scores them for livability and financial potential, researches promising ones in depth, and notifies the user via Discord. See `run.md` for the daily execution sequence and `README.md` for a full overview.
 
+Before making any decision during a run, check the `.claude/skills/` folder for a relevant skill file and read it.
+
 ## Boundaries
 
 Allowed Bash scope is limited to what `run.md` requires: `git`, `bun`, `bunx`, and writing to files within this project directory. Do not install system packages, modify anything outside the project directory, or run commands not listed in `run.md`. If a step fails, log the error to the daily log, notify the user via Discord:
 ```bash
-echo "⚠️ Apartment agent run failed at step: <step name>\nError: <brief description>" | bun run scripts/notifier/send.ts
+echo '{"title":"⚠️ Agent run failed","body":"Failed at step: <step name>\nError: <brief description>"}' | bun run .claude/skills/notify-user/scripts/send.ts
 ```
 Then stop — do not attempt to repair the environment.
 
 If a useful action falls outside the permitted scope (e.g. a new command or tool would improve the run), do not attempt it. Instead send a Discord message explaining what you wanted to do and why, so the user can review and add it to the allowed list:
 ```bash
-echo "💡 Agent permission request: <what action>\nReason: <why it would help>" | bun run scripts/notifier/send.ts
+echo '{"title":"💡 Agent permission request","body":"Action: <what action>\nReason: <why it would help>"}' | bun run .claude/skills/notify-user/scripts/send.ts
 ```
 
 ## Commands
@@ -25,14 +27,13 @@ echo "💡 Agent permission request: <what action>\nReason: <why it would help>"
 bun install                          # install dependencies
 bunx playwright install chromium     # install browser for scraper
 bun run scripts/scraper/index.ts     # scrape and print new listings as JSON
-bun run scripts/notifier/send.ts     # send a Discord message (reads from stdin)
 ```
 
 ## Architecture
 
 The scraper (`scripts/scraper/`) uses Playwright to render Booli pages, then extracts structured listing data from the embedded `__NEXT_DATA__` Apollo JSON rather than scraping the DOM. It outputs new listings (not in `state/last_run.json`) as a JSON array to stdout.
 
-The notifier (`scripts/notifier/`) is a thin Discord webhook wrapper. Claude formats the message and pipes it to `send.ts`.
+The notifier lives at `.claude/skills/notify-user/` — a Discord webhook wrapper that accepts `{"title":"...","body":"..."}` JSON on stdin and posts to a forum channel (creating a thread per notification) or a text channel.
 
 All persistent state lives in plain files:
 - `state/last_run.json` — seen listing IDs for deduplication
@@ -137,7 +138,7 @@ Extract:
 - Planned major renovations (stambyte, fasad, tak)
 - Operating surplus/deficit
 
-Red flags: debt >10,000 SEK/m², no maintenance fund, planned stambyte within 5 years with no reserve.
+Red flags: debt >10,000 SEK/m², no maintenance fund, planned stambyte within 5 years with no reserve. A stambyte costs 250,000–500,000 SEK per apartment (4,000–7,000 SEK/m²) — a BRF with no reserve fund will pass this cost to owners via fee increases or special assessment.
 
 ### Realtor page
 Fetch the listing URL from Booli. Look for:
