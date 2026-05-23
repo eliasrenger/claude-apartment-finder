@@ -1,0 +1,14 @@
+{
+  "eval_id": 2,
+  "eval_name": "hornstull-stambyte",
+  "prompt": "Evaluate Torkelsgatan 14 — price/m² below area median but stambyte planned 2026-2027 with limited maintenance fund. Skill must calculate effective cost and apply hard disqualifier.",
+  "assertions": [
+    "Output is valid, parseable JSON with no surrounding text",
+    "route is 'skip'",
+    "disqualified is true",
+    "disqualifier_reason contains 'stambyte' or 'reserve fund' or 'maintenance fund' or 'underhållsfond'",
+    "The output references the effective price calculation — that adding stambyte cost (4,000-7,000 SEK/m²) to list price/m² (76,000) equals or exceeds the area median (80,000 SEK/m²)",
+    "research.brf_fund_balance or equivalent field reflects inadequacy (e.g. 'inadequate', 'limited', 'begränsad', or similar)",
+    "writeup is null or absent — disqualified listings do not require a writeup per the skill spec"
+  ]
+}

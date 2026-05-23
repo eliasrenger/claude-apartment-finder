@@ -1,0 +1,88 @@
+{
+  "booli_id": 7234891,
+  "address": "Karlavägen 12, 114 31 Stockholm",
+  "score": 48,
+  "route": "watch",
+  "disqualified": false,
+  "disqualifier_reason": null,
+  "summary": "Prime Östermalm location with excellent transit and grocery access, but 91 days on market with no price reduction in one of Stockholm's fastest-moving neighbourhoods is a serious red flag that likely signals hidden issues — watch and investigate further before acting.",
+  "financial_score": 20,
+  "livability_score": 28,
+  "score_breakdown": {
+    "financial": {
+      "discount_to_estimate": 8,
+      "note_discount": "List price equals Booli mid estimate exactly (4,620,000 = 4,620,000) — 0% discount, earns 8 pts as within 0-5% below estimate.",
+      "price_per_m2_vs_area": 0,
+      "note_price_per_m2": "Listed at 62,432 SEK/m2 vs Ostermalm median of ~124,000-130,000 SEK/m2. This is ~50% below median which would normally earn maximum points, but the anomaly is so extreme it suggests either a systematic error in the listing data, a non-standard property type, or the Booli estimate itself is wrong. Scoring 0 pts pending explanation of the anomaly.",
+      "monthly_fee_efficiency": 10,
+      "note_fee": "5,100 SEK / 74 m2 = 68.9 SEK/m2/month — far below 400 SEK/m2 threshold (10 pts). Anomalously low fee for a 1932 building may indicate deferred maintenance.",
+      "brf_financial_health": 2,
+      "note_brf": "Description states 'valskott med lag belaning' — realtor-reported, not independently verified. BRF name could not be confirmed in public registries. Partial credit pending verification.",
+      "total": 20
+    },
+    "livability": {
+      "floor": 8,
+      "note_floor": "Floor 3 of 5 with elevator — 8 pts.",
+      "outdoor_space": 8,
+      "note_outdoor": "Balcony present, west-facing. Not south-facing so 8 pts rather than 10.",
+      "building_condition": 4,
+      "note_building": "Built 1932 (pre-1960), kitchen renovated 2015 but no documented full renovation. 4 pts for pre-1960 with partial renovation evidence.",
+      "area_desirability": 8,
+      "note_area": "Karlaplan/Ostermalm is established and highly desirable. Karlaplan is specifically listed in user's areas of extra interest. Strong transit, upscale neighbourhood. 8 pts.",
+      "layout_efficiency": 3,
+      "note_layout": "74 m2 for 3 rooms is reasonable but slightly below ideal. Average efficiency — 3 pts.",
+      "amenities": 3,
+      "note_amenities": "Elevator confirmed, high-quality common areas noted in description. Storage not explicitly mentioned. 3 pts.",
+      "raw_total": 34,
+      "adjustment": -6,
+      "note_adjustment": "Deducting 6 pts for the 91-day stale listing red flag — rubric says >60 days no price reduction may indicate hidden issues.",
+      "total": 28
+    }
+  },
+  "research": {
+    "transit": {
+      "finding": "Karlaplan T-bana station (Red Line) is approximately 3-5 minutes walk from Karlavaegen 12. Red Line serves Ostermalmstorg, T-Centralen, and connects across the city. User requires red or green line within 10 minutes — Red Line clearly met.",
+      "passes_preference": true,
+      "nearest_station": "Karlaplan (Roda linjen / Red Line)",
+      "walk_minutes_estimate": 4
+    },
+    "grocery": {
+      "finding": "Multiple grocery options within easy walking distance: ICA Nara Karlaplan at Karlaplan 10 (under 5 min walk), ICA Nara Humlegarden at Karlavaegen 26 (short walk north), ICA Supermarket Esplanad at Karlavaegen 56. All within 10 minutes.",
+      "passes_preference": true,
+      "nearest_store": "ICA Nara Karlaplan, Karlaplan 10",
+      "walk_minutes_estimate": 3
+    },
+    "brf_financials": {
+      "finding": "BRF name 'BRF Karlaplan 12' could not be confirmed in public registries. Building at Karlavaegen 12 appears to have mixed commercial and residential use. Realtor description states 'valskott med lag belaning' (well-managed, low debt) — self-reported and unverified. Monthly fee of 5,100 SEK for 74 m2 (68.9 SEK/m2/month) is anomalously low for a 1932 Ostermalm building and may indicate deferred maintenance funding. No arsredovisning data found.",
+      "debt_per_m2": "Unknown — could not verify",
+      "fee_trend": "Unknown",
+      "maintenance_fund": "Unknown",
+      "renovation_plans": "Kitchen renovated 2015 only — no stambyte or major renovation documented",
+      "red_flags": [
+        "BRF name not confirmed in public registries",
+        "Anomalously low monthly fee for building age and location — may indicate deferred maintenance",
+        "No arsredovisning data accessible for verification"
+      ]
+    },
+    "area_market": {
+      "finding": "Ostermalm has average price per m2 of 129,837 SEK (3-month) and 124,098 SEK/m2 (12-month) as of May 2026, with +7.7% year-over-year growth. Karlaplan area specifically quoted at ~136,811 SEK/m2 in recent data. The listing at 62,432 SEK/m2 is approximately 50% of the area median — an extreme anomaly.",
+      "area_median_per_m2": 129837,
+      "listing_vs_median_pct": -52,
+      "overbidding_ratio": "Ostermalm typically sees competitive bidding — long days on market anomalous",
+      "neighbourhood_trajectory": "Strong upward trend, established prime area, no decline signals"
+    },
+    "macro": {
+      "finding": "Riksbanken held policy rate at 1.75% (May 7, 2026 decision). Variable mortgage rates around 2.6%. Market analysts forecast +6% property price growth 2026-2027. Macro environment is broadly supportive.",
+      "riksbank_rate": "1.75%",
+      "mortgage_rate_estimate": "~2.6%",
+      "price_forecast_2026": "+6%"
+    },
+    "stale_listing_analysis": {
+      "days_active": 91,
+      "finding": "91 days on market in Ostermalm/Karlaplan with no price reduction is highly anomalous. This neighbourhood typically sells in 2-4 weeks with competitive bidding. A 91-day stale listing almost certainly signals hidden issues: structural problems, legal dispute, BRF disputes, non-standard ownership, or undisclosed defect discovered at early viewings. 'Visning pa begaran' (viewing on request) rather than open house is also notable.",
+      "rubric_flag": ">60 days with no price reduction may indicate hidden issues"
+    }
+  },
+  "writeup": "# Karlavaegen 12 — Score: 48/100\n\n**Verdict:** Outstanding location with serious red flags — 91 days on market in Ostermalm with no price reduction demands explanation before any move.\n\n| Field | Value |\n|---|---|\n| Price | 4,620,000 SEK |\n| Price/m2 | 62,432 SEK/m2 |\n| Monthly fee | 5,100 SEK |\n| Size | 74 m2, 3 rooms |\n| Floor | 3 of 5 |\n| Built | 1932 |\n| BRF | BRF Karlaplan 12 (unconfirmed) |\n| Area | Ostermalm, Stockholm |\n| Booli estimate | 4,400,000-4,620,000-4,850,000 (low/mid/high) |\n| URL | https://www.booli.se/annons/7234891 |\n\n## Why watch\n\nKarlaplan is explicitly on the user's area shortlist, and this apartment has genuine strengths: west-facing balcony, elevator in a 5-floor building, ~4 min walk to Karlaplan T-bana (Red Line), and ICA Nara at Karlaplan 10 (under 5 min walk). Ostermalm is appreciating at +7.7% year-over-year with a median price of ~130,000 SEK/m2.\n\nHowever, the listing at 62,432 SEK/m2 is roughly half the Ostermalm area median. In a normally functioning market, a 3-room apartment on Karlavaegen would sell at 120,000-140,000 SEK/m2, implying a true market value around 8.9-10.4M SEK. The Booli estimate of 4.4-4.85M SEK also appears dramatically understated, suggesting either the estimate is miscalibrated or the apartment has characteristics that justify the discount.\n\nThe 91-day market time with no price reduction is the single biggest concern. In Ostermalm, apartments sell in 2-4 weeks with active bidding. A property sitting for 91 days almost always has a specific problem: structural issue, BRF dispute, legal encumbrance, or defect discovered during early viewings.\n\n## Risks and open questions\n\n- **Stale listing (91 days, no reduction)**: The dominant risk. What happened at early viewings? Why has no buyer committed?\n- **Price/m2 anomaly**: At 62,432 SEK/m2 in Ostermalm, something structural is unusual. Is this a partial ownership stake? Tenant-occupied? Major undisclosed defect?\n- **BRF identity unverified**: 'BRF Karlaplan 12' does not appear in public registries under that name.\n- **Anomalously low monthly fee**: 5,100 SEK for 74 m2 in a 1932 Ostermalm building is ~69 SEK/m2/month — far below typical. May indicate deferred maintenance leading to future fee increases or special assessments.\n- **1932 building, only kitchen renovated (2015)**: No documented stambyte, no full renovation. Plumbing and electrical may be aging.\n\n## BRF economy\n\nCould not independently verify BRF financials. The BRF name 'BRF Karlaplan 12' did not match records in public databases. Realtor description claims low debt and well-managed association — unverified self-reporting. The monthly fee of 5,100 SEK (69 SEK/m2/month) is suspiciously low for a 1932 Ostermalm building. Prospective buyers should request the latest arsredovisning and verify: skuld per lagenhet, underhallsfond balance, and any planned stambyte.\n\n## Market context\n\nOstermalm average: 129,837 SEK/m2 (3-month), 124,098 SEK/m2 (12-month), +7.7% year-over-year. Karlaplan micro-area quoted at ~136,811 SEK/m2. At 62,432 SEK/m2, this listing sits at ~48% of the 3-month area median. Riksbanken held rate at 1.75% on May 7, 2026; mortgage rates ~2.6%; macro forecasts project +6% property price growth for 2026-2027. The supportive macro environment makes the stale listing even more anomalous.",
+  "routing_rationale": "Score 48 falls just below watchThreshold (50). Routing to 'watch' rather than 'skip' because: (1) Karlaplan is explicitly in the user's preferred area list, (2) the anomalies (extreme price discount, stale listing) merit investigation rather than dismissal — if the issues are resolvable or the price is genuinely low, this could be significant. However, 'notify' is not appropriate given the serious unresolved red flags."
+}

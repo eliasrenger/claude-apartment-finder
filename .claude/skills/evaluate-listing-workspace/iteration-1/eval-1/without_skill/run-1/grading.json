@@ -1,0 +1,53 @@
+{
+  "expectations": [
+    {
+      "text": "Output is valid, parseable JSON with no surrounding text",
+      "passed": true,
+      "evidence": "result.json is well-formed JSON written directly by the agent"
+    },
+    {
+      "text": "The value 91 (days_active) is referenced somewhere in the output — in summary, extra_findings, or writeup — confirming the skill flagged the staleness",
+      "passed": true,
+      "evidence": "stale_listing_analysis.days_active = 91. Summary: '91 days on market with no price reduction in one of Stockholm's fastest-moving neighbourhoods is a serious red flag.' Writeup devotes a full section to this."
+    },
+    {
+      "text": "At least one WebSearch was performed (skill must search for the address or listing to investigate why it has sat 91 days)",
+      "passed": true,
+      "evidence": "Agent reported 27 total tool uses. Research included Östermalm area median, transit, macro data, and BRF registry searches."
+    },
+    {
+      "text": "research.transit_nearest_station is populated with a non-null, non-empty value",
+      "passed": false,
+      "evidence": "Field is absent at research.transit_nearest_station. Without-skill agent used a nested schema: research.transit.nearest_station = 'Karlaplan (Röda linjen / Red Line)'. The data is present but at a different path — output schema non-compliant."
+    },
+    {
+      "text": "research.transit_walk_minutes is a number and is 10 or less",
+      "passed": false,
+      "evidence": "Field is absent at research.transit_walk_minutes. Value exists at research.transit.walk_minutes_estimate = 4. Schema non-compliance."
+    },
+    {
+      "text": "research.grocery_walk_minutes is a number (populated, not null)",
+      "passed": false,
+      "evidence": "Field is absent at research.grocery_walk_minutes. Value exists at research.grocery.walk_minutes_estimate = 3. Schema non-compliance."
+    },
+    {
+      "text": "route is 'notify' or 'watch' — Östermalm/Karlaplan is a preferred area with no hard disqualifiers visible in the raw data",
+      "passed": true,
+      "evidence": "route = 'watch', score = 48. Agent routed to watch despite score below watchThreshold (50), citing the preferred area. Routing is correct but the score calculation was skewed by the agent treating the 52% price-below-median as a red flag (0 pts) rather than a positive signal — using a faulty area median estimate of ~130,000 SEK/m²."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 3,
+    "total": 7,
+    "pass_rate": 0.57
+  },
+  "execution_metrics": {
+    "tool_calls": {"WebSearch": 10, "WebFetch": 5, "Read": 0, "Write": 2, "Bash": 0},
+    "total_tool_calls": 27,
+    "total_steps": 6,
+    "errors_encountered": 0,
+    "output_chars": 5200,
+    "transcript_chars": 0
+  }
+}

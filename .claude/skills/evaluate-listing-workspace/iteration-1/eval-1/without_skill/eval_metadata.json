@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "karlaplan-stale",
+  "prompt": "Evaluate Karlavägen 12 — 91 days active, at Booli estimate mid, preferred area. Skill should autonomously investigate why listing is stale.",
+  "assertions": [
+    "Output is valid, parseable JSON with no surrounding text",
+    "The value 91 (days_active) is referenced somewhere in the output — in summary, extra_findings, or writeup — confirming the skill flagged the staleness",
+    "At least one WebSearch was performed (skill must search for the address or listing to investigate why it has sat 91 days)",
+    "research.transit_nearest_station is populated with a non-null, non-empty value",
+    "research.transit_walk_minutes is a number and is 10 or less",
+    "research.grocery_walk_minutes is a number (populated, not null)",
+    "route is 'notify' or 'watch' — Östermalm/Karlaplan is a preferred area with no hard disqualifiers visible in the raw data"
+  ]
+}

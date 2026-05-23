@@ -1,0 +1,27 @@
+{
+  "booli_id": 7345672,
+  "address": "Torkelsgatan 14, 117 23 Stockholm",
+  "score": 52,
+  "route": "watch",
+  "disqualified": false,
+  "disqualifier_reason": null,
+  "summary": "Attraktivt läge i Hornstull med konkurrenskraftigt pris/m², men planerat stambyte 2026–2027 med begränsad underhållsfond innebär en dold skuld på 300 000–500 000 SEK per lägenhet som äter upp finansiell edge.",
+  "financial_score": 22,
+  "livability_score": 30,
+  "research": {
+    "brf_name": "BRF Torkeln",
+    "brf_debt_per_m2": null,
+    "brf_fee_trend": "unknown",
+    "brf_planned_works": "Stambyte planerat 2026–2027",
+    "brf_fund_balance": "begränsad (limited — stated in listing description)",
+    "transit_nearest_station": "Hornstull (T13)",
+    "transit_walk_minutes": 5,
+    "grocery_walk_minutes": 5,
+    "area_median_price_per_m2": 80000,
+    "area_overbidding_ratio": null,
+    "area_notes": "Södermalm/Hornstull 3-month median May 2026: ~113,818 SEK/m² (alla lgh), older BRF stock ~75,000–95,000 SEK/m². +7.2% annual price growth."
+  },
+  "writeup": "# Torkelsgatan 14 — Score: 52/100\n\n**Verdict:** Intressant läge och bra planlösning, men stambyte med begränsad fond är en dold skuld som kräver kvantifiering.\n\n| Field | Value |\n|---|---|\n| Price | 5,472,000 SEK |\n| Price/m² | 76,000 SEK/m² |\n| Monthly fee | 4,050 SEK |\n| Size | 72 m², 3 rooms |\n| Floor | 4 of 6 |\n| Built | 1963 |\n| BRF | BRF Torkeln |\n| Area | Hornstull, Stockholm |\n| Booli estimate | 5,200,000–5,650,000–6,100,000 |\n| URL | https://www.booli.se/annons/7345672 |\n\n## Why watch\n\nHornstull är ett av Södermalms mest attraktiva lägen med god kommunikation (T13) och närhet till service. Lägenheten har hög våning (4/6) med hiss, västvändb balkong och utmärkt planlösning enligt mäklaren. Listpriset på 76,000 SEK/m² är i underkant för äldre Hornstull-bestånd (~80,000–95,000 SEK/m²).\n\n## Risks and open questions\n\n- **Stambyte 2026–2027 med begränsad underhållsfond** — Uppskattad kostnad 300 000–500 000 SEK per lägenhet (250 000–500 000 SEK / 72 m² = 3 472–6 944 SEK/m²). Effektivt pris/m² stiger till 79 472–82 944 SEK/m² — i nivå med eller över lokalmedian.\n- Utan årsredovisning för BRF Torkeln kan skuld/m² inte verifieras.\n- Månadsavgiften (4 050 SEK) är troligen tillfällig — post-stambyte kan avgiften stiga 30–50%.\n- Byggår 1963, ingen dokumenterad renovering av badrum eller kök.",
+  "macro_update": "Riksbanken held rate at 1.75% (7 May 2026). Stockholm BRF prices forecast +8.4% for 2026.",
+  "extra_findings": null
+}

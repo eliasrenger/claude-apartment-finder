@@ -1,0 +1,27 @@
+{
+  "booli_id": 7345672,
+  "address": "Torkelsgatan 14, 117 23 Stockholm",
+  "score": 61,
+  "route": "skip",
+  "disqualified": true,
+  "disqualifier_reason": "Planned stambyte within 3 years (2026–2027) with explicitly limited maintenance fund. Cost exposure 320,000–600,000 SEK per apartment with no reserve — fee increase of 15–30% or special assessment likely.",
+  "summary": "Appealing Hornstull location and strong livability, but a confirmed near-term stambyte with an underfunded maintenance reserve is a hard disqualifier regardless of score.",
+  "financial_score": 22,
+  "livability_score": 39,
+  "research": {
+    "brf_name": "BRF Torkeln",
+    "brf_debt_per_m2": null,
+    "brf_fee_trend": "unknown",
+    "brf_planned_works": "Stambyte planned 2026–2027 per listing description",
+    "brf_fund_balance": "limited (explicitly stated as 'begränsad' in description)",
+    "transit_nearest_station": "Hornstull (T13/T14 red line)",
+    "transit_walk_minutes": 5,
+    "grocery_walk_minutes": 5,
+    "area_median_price_per_m2": 80000,
+    "area_overbidding_ratio": "unknown",
+    "area_notes": "Hornstull is an established, desirable Södermalm neighbourhood with strong transit access, restaurants, weekend markets, and consistent demand. Broader Södermalm median cited at ~106,000 SEK/m² in some 2026 sources, but provided market context of ~80,000 SEK/m² is used as baseline."
+  },
+  "writeup": null,
+  "macro_update": "Riksbanken held policy rate at 1.75% as of May 2026. Mortgage rates approximately 2.6% variable. Stockholm BRF prices forecast +8.4% in 2026 according to analyst consensus. Macro environment is supportive of property values.",
+  "extra_findings": "Stambyte cost context (2026): replacing pipes and renovating bathrooms in a 72 m² 3-room apartment costs approximately 320,000–600,000 SEK. BRF Torkeln has a limited maintenance fund, meaning this cost would be financed through new association debt, which passes to owners as fee increases (typically 15–30%) or a special assessment. The low monthly fee (4,050 SEK / 56 SEK per m²) is partially explained by this deferred cost — it will not remain low after the stambyte. The listing price at 76,000 SEK/m² reflects a ~5% discount to the stated market context median; however, adding 4,500–8,300 SEK/m² of stambyte exposure erases any apparent discount and makes the true cost materially above market."
+}

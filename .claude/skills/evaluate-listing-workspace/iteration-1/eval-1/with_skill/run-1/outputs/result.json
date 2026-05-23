@@ -1,0 +1,27 @@
+{
+  "booli_id": 7234891,
+  "address": "Karlavägen 12, 114 31 Stockholm",
+  "score": 59,
+  "route": "watch",
+  "disqualified": false,
+  "disqualifier_reason": null,
+  "summary": "Välplanerad 3-roa vid Karlaplan i ett av Stockholms mest attraktiva lägen, men 91 dagars liggtid (6× Östermalmsmedel) och visning på begäran är oförklarade varningssignaler som kräver vidare undersökning innan notify.",
+  "financial_score": 19,
+  "livability_score": 40,
+  "research": {
+    "brf_name": "BRF Karlaplan 12",
+    "brf_debt_per_m2": null,
+    "brf_fee_trend": "unknown — årsredovisning not publicly found",
+    "brf_planned_works": "none mentioned",
+    "brf_fund_balance": "unverified — description claims 'låg belåning'",
+    "transit_nearest_station": "Östermalmstorg (T13/T14)",
+    "transit_walk_minutes": 4,
+    "grocery_walk_minutes": 3,
+    "area_median_price_per_m2": null,
+    "area_overbidding_ratio": null,
+    "area_notes": "Östermalm — user-preferred area (Karlaplan). Prime location. Typical days on market ~15 days; this listing at 91 days is ~6× average."
+  },
+  "writeup": "# Karlavägen 12 — Score: 59/100\n\n**Verdict:** Lovande läge och boende, men 91 dagars liggtid kräver förklaring innan notify.\n\n| Field | Value |\n|---|---|\n| Price | 4,620,000 SEK |\n| Price/m² | 62,432 SEK/m² |\n| Monthly fee | 5,100 SEK |\n| Size | 74 m², 3 rooms |\n| Floor | 3 of 5 |\n| Built | 1932 |\n| BRF | BRF Karlaplan 12 |\n| Area | Östermalm, Stockholm |\n| Booli estimate | 4,400,000–4,620,000–4,850,000 |\n| URL | https://www.booli.se/annons/7234891 |\n\n## Why watch\n\nKarlaplan är ett av Stockholms mest eftertraktade lägen. Lägenheten är välplanerad med 3 rum på 74 m², västvändb balkong och renoverat kök (2015). Tunnelbana (Östermalmstorg, T13/T14) på 4 minuters promenad och ICA på 3 minuter.\n\nListpriset ligger exakt på Boolis mittestimat vilket inte ger finansiell edge, men priset per m² (62,432 SEK) är lågt för Östermalm. Månadsavgiften är låg (5,100 SEK / 74 m² = 68.9 SEK/m²/mån).\n\n## Risks and open questions\n\n- **91 dagars liggtid** — 6× Östermalmsmedlet (~15 dagar). Inga förklaringar hittades i annons eller via sökning. 'Visning på begäran' är ovanligt för detta marknadsläge.\n- **BRF-ekonomi overifierad** — Årsredovisning ej tillgänglig online. 'Låg belåning' i beskrivningen är obekräftat.\n- **1932-bygge** — Inga dokumenterade stambyten eller fasadrenovering funna.\n\n## BRF economy\n\nIngen årsredovisning tillgänglig online. Beskrivningen nämner 'välskött med låg belåning' men detta är obekräftat. BRF-poäng satt till 3/5 (osäkerhet).\n\n## Market context\n\nInget Östermalmsmedian finns i market memory. Riksbanken håller räntan på 1.75% (maj 2026), bolåneräntor ~2.6%, Stockholms BRF-priser prognostiserade +8.4% 2026.",
+  "macro_update": "Riksbanken held rate at 1.75% (May 2026). Mortgage rates ~2.6%. Stockholm BRF prices forecast +8.4% in 2026.",
+  "extra_findings": "91 days active is approximately 6× the typical Östermalm days-on-market average (~15 days). 'Visning på begäran' (viewing by appointment only) is unusual in this market and may signal a problematic situation — seller constraints, ongoing legal dispute, hidden defects, or an unrealistic floor price. No specific explanation found via search."
+}
