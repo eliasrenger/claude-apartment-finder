@@ -35,7 +35,67 @@ Each listing is evaluated on two axes:
 
 ## Setup
 
-> Setup instructions will be added once the implementation is complete.
+### 1. Install dependencies
+
+```bash
+bun install
+bunx playwright install chromium
+```
+
+### 2. Install Claude Code
+
+This project runs via the [Claude Code](https://claude.ai/code) CLI. Install it and log in:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude login
+```
+
+### 3. Configure environment
+
+Copy `.env.example` to `.env` and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
+
+Required variables:
+- `DISCORD_FORUM_WEBHOOK_URL` — webhook URL for the Discord forum channel where notifications are posted as threads
+
+### 4. Configure your search
+
+Edit `config.yaml` to set your Booli search parameters (area IDs, price range, size, rooms) and scoring thresholds.
+
+### 5. Set up the cron job
+
+The agent runs via `scripts/run-daily.sh`. Set up a cron job to call it on a schedule:
+
+```bash
+crontab -e
+```
+
+From the project root, run this to register the cron job automatically:
+
+```bash
+(crontab -l 2>/dev/null; echo "0 5 * * * cd $(pwd) && bash -l scripts/run-daily.sh") | crontab -
+```
+
+`$(pwd)` is evaluated immediately in your shell, so the correct project path is written into crontab without you having to type it. Change `0 5` to your preferred time — `0 7` runs at 07:00, for example.
+
+- `bash -l` starts a login shell so your full `PATH` is available (needed for `claude`, `bun`, `git`)
+- The script writes logs to `logs/YYYY-MM-DD.log` inside the project directory
+
+To verify the cron job was registered:
+
+```bash
+crontab -l
+```
+
+To test the script manually before the first scheduled run:
+
+```bash
+bash -l scripts/run-daily.sh
+```
 
 ## Configuration
 
