@@ -3,9 +3,9 @@ search:
   extendAreas: 2
   objectType: "Lägenhet"
   minListPrice: 1500000
-  maxListPrice: 6000000
+  maxListPrice: 5700000
   minLivingArea: 25
-  maxLivingArea: 100
+  maxLivingArea: 70
   minRooms: 1.5
   maxRooms: 4
 
