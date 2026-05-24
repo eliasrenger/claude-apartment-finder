@@ -24,6 +24,7 @@ CLAUDE_BIN="${CLAUDE_BIN:-$(which claude)}"
 "$CLAUDE_BIN" \
   -p "$(cat run.md)" \
   --dangerously-skip-permissions \
+  --verbose \
   2>&1 | tee -a "$LOG_FILE"
 
 echo "=== Run finished at $(TZ="Europe/Stockholm" date +%Y-%m-%dT%H:%M:%S) ===" >> "$LOG_FILE"
