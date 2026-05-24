@@ -12,4 +12,4 @@ search:
 analysis:
   notifyThreshold: 70
   watchThreshold: 60
-  maxEvaluations: 8
+  maxEvaluations: 6

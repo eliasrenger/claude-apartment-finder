@@ -213,9 +213,20 @@ Update `memory/macro.md` if the picture has shifted since the last recorded entr
 🏠 **<Address>** — <neighbourhood> | Score: <X>/100
 <One sentence verdict>
 
+📊 Financial: <financial_score>/50 | Livability: <livability_score>/50
+
 💰 <list_price> SEK | <price_per_m2> SEK/m² | Avgift: <monthly_fee> SEK/month
 📐 <rooms> rum, <living_area_m2> m² | Våning <floor>/<total_floors> | Byggår <construction_year>
-📊 Booli estimate: <booli_estimate_low>–<booli_estimate_high> SEK
+🏢 BRF: <brf_name> | Skuld: <brf_debt_per_m2> SEK/m² (use "okänd" if unknown)
+📈 Booli estimate: <booli_estimate_low>–<booli_estimate_mid> SEK | Område: <area_price_trend e.g. "+4.6% YoY" or "–" if unknown>
+🚇 <transit_nearest_station> (<line>) — <transit_walk_minutes> min | 🛒 Mataffär: <grocery_walk_minutes> min (use "–" if unknown)
+🔑 Balkong: <✓/✗> | Hiss: <✓/✗> | Förråd: <✓/✗>
+
+⚠️ **Risker**
+• <risk 1>
+• <risk 2 if applicable — omit bullet if only one risk>
+
+💬 <Agent comment — 1–6 sentences of free text. Use this for anything not captured above: a standout signal, a comparison to other active listings, a timing note (e.g. showing date), a gut-check on pricing, or a reason to move fast or hold off.>
 
 <url>
 ```
