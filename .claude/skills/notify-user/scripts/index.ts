@@ -2,9 +2,9 @@ import { DiscordNotifier } from "./discord";
 import type { NotificationPayload } from "./notifier";
 
 export async function sendNotification(payload: NotificationPayload): Promise<void> {
-  const webhook = Bun.env.DISCORD_FORUM_URL ?? Bun.env.DISCORD_WEBHOOK_URL;
+  const webhook = Bun.env.DISCORD_FORUM_WEBHOOK_URL ?? Bun.env.DISCORD_WEBHOOK_URL;
   if (!webhook) {
-    log("warn", "No Discord webhook URL set (DISCORD_FORUM_URL or DISCORD_WEBHOOK_URL) — skipping notification");
+    log("warn", "No Discord webhook URL set (DISCORD_FORUM_WEBHOOK_URL or DISCORD_WEBHOOK_URL) — skipping notification");
     return;
   }
   const notifier = new DiscordNotifier(webhook);
