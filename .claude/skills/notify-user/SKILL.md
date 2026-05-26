@@ -11,7 +11,11 @@ Send a JSON payload by piping it to the notifier script:
 echo '{"title":"...","body":"..."}' | bun run ${CLAUDE_SKILL_DIR}/scripts/send.ts
 ```
 
-The script delivers to Discord. If the webhook points to a **Forum channel**, Discord creates a new thread per notification — the title becomes the thread name, the body opens inside the thread. In a regular text channel, both fields are combined into one message.
+The script delivers to Discord. Requires either:
+- `DISCORD_BOT_TOKEN` + `DISCORD_CHANNEL_ID` — preferred; enables reaction tracking and creates a forum thread per notification
+- `DISCORD_FORUM_WEBHOOK_URL` (or `DISCORD_WEBHOOK_URL`) — fallback; sends via webhook, no reaction tracking
+
+When using the bot, include `booli_id` in the payload so the Discord thread ID is saved to `state/discord_messages.json` for later reaction polling.
 
 ---
 
@@ -66,6 +70,7 @@ Name a specific, unusual combination — not what the listing contains, but why 
 ```bash
 echo '{
   "title": "🏠 Skånegatan 80B — Södermalm | Score: 71/100",
-  "body": "Listad 10% under Booli-uppskattning i SoFo med kommersiella hyresgäster som subventionerar avgiften till 2 162 SEK/mån.\n\n**Score: 71/100** · Finansiellt: 37/50 · Boendekomfort: 34/50\n\n**BRF Bondetorpet 80**\nSkuld/m²: 8 660 SEK · Avgift +4% 2024, +5% apr 2025 · Stambyte klart 2002 ✅ · Underhållsfond: ej bekräftad\n\n**SoFo, Södermalm**\nMedianpris: ~110 000 SEK/m² · Skanstull (T13/T14) 4 min · Hemköp 5 min\n\n**Varför notifiera**\nListat 5 195 000 SEK mot Booli-estimat 5 790 000 SEK (−10,3%). Jämförbar lägenhet på samma adress såldes feb 2025 för 5 300 000 SEK — detta är billigare. Kommersiella hyresgäster (restaurang + klädbutik) bidrar med >1,1 MSEK/år vilket håller avgiften exceptionellt låg.\n\n**Risker**\n• Avgiften höjd två år i rad — läs årsredovisningen på skanegatan80.se\n• Balkongläge okänt\n• 1930 byggnad — fasad/tak okänd status\n\n**Visning:** Ej annonserad ännu\nhttps://www.booli.se/bostad/736794"
+  "body": "Listad 10% under Booli-uppskattning i SoFo med kommersiella hyresgäster som subventionerar avgiften till 2 162 SEK/mån.\n\n**Score: 71/100** · Finansiellt: 37/50 · Boendekomfort: 34/50\n\n**BRF Bondetorpet 80**\nSkuld/m²: 8 660 SEK · Avgift +4% 2024, +5% apr 2025 · Stambyte klart 2002 ✅ · Underhållsfond: ej bekräftad\n\n**SoFo, Södermalm**\nMedianpris: ~110 000 SEK/m² · Skanstull (T13/T14) 4 min · Hemköp 5 min\n\n**Varför notifiera**\nListat 5 195 000 SEK mot Booli-estimat 5 790 000 SEK (−10,3%). Jämförbar lägenhet på samma adress såldes feb 2025 för 5 300 000 SEK — detta är billigare. Kommersiella hyresgäster (restaurang + klädbutik) bidrar med >1,1 MSEK/år vilket håller avgiften exceptionellt låg.\n\n**Risker**\n• Avgiften höjd två år i rad — läs årsredovisningen på skanegatan80.se\n• Balkongläge okänt\n• 1930 byggnad — fasad/tak okänd status\n\n**Visning:** Ej annonserad ännu\nhttps://www.booli.se/bostad/736794",
+  "booli_id": "736794"
 }' | bun run ${CLAUDE_SKILL_DIR}/scripts/send.ts
 ```
