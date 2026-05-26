@@ -17,6 +17,16 @@ For the cron entry (runs at 07:00 daily):
 
 Execute the following steps in order.
 
+## 0. Poll for user feedback
+
+```bash
+bun run scripts/bot/reaction-poll.ts
+```
+
+Reads emoji reactions and thread replies from Discord for all tracked listing notifications since the last check. Writes `state/pending_feedback.json`. If `DISCORD_BOT_TOKEN` is not set, the script exits immediately — continue to step 1.
+
+Emoji meanings: ✅ positive (good pick) · ❌ negative (not interesting) · 👀 watch (keep monitoring) · 🔥 strong interest (move fast)
+
 ## 1. Update the repository
 
 ```bash
@@ -46,6 +56,7 @@ Read the following once and hold it in context — you will pass summaries to su
 - `memory/market.md` — area pricing trends and comps
 - `memory/macro.md` — interest rate and macro context (note the date of last update)
 - `memory/calibration.md` — how past picks played out
+- `state/pending_feedback.json` — pending user feedback from Discord reactions/replies (from step 0). Note any entries for use in step 9.
 
 ## 5. Pre-filter
 
@@ -96,7 +107,7 @@ For each subagent result (a JSON object per the evaluate-listing skill output fo
 
 **`route: notify`:**
 - The subagent has already written the write-up file (path is in the `writeup` field). Verify the file exists.
-- Send notification using the skill at `.claude/skills/notify-user/SKILL.md`
+- Send notification using the skill at `.claude/skills/notify-user/SKILL.md`. **Include `booli_id` in the payload** so the Discord thread is tracked for reaction feedback.
 
 **`route: watch`:**
 - The subagent has already written the watchlist file (path is in the `writeup` field). Verify the file exists.
@@ -121,5 +132,19 @@ Merge today's `booli_id` values with those already in `state/last_run.json`:
 After routing all results, apply any updates from subagent findings:
 - If any result includes `macro_update` → overwrite the body of `memory/macro.md`, keeping the `## Last updated: YYYY-MM-DD` header set to today's date
 - If any result includes `area_update` → upsert the row for that area in the `memory/market.md` table, updating the median, source, and `Last researched` date. If the area is not yet in the table, add a new row.
-- If user feedback was received since last run → update `memory/preferences.md`
+- If `state/pending_feedback.json` has entries (from step 0), incorporate them:
+  - ✅ or 🔥 reactions → append a positive calibration note to `memory/calibration.md` and a preference signal to `memory/preferences.md` (e.g. "User reacted positively to listings with X trait")
+  - ❌ reaction → append a negative calibration note and preference signal (e.g. "User rejected listing with Y — note the area/price/BRF")
+  - 👀 reaction → note the user wants continued monitoring (update watchlist entry if applicable)
+  - Text replies → classify each reply as one of:
+    - **Question** — answer it using your knowledge of the listing, BRF, and area. Post the answer back to the same thread:
+      ```bash
+      echo '{"thread_id":"<thread_id from entry>","content":"<your answer>"}' | bun run scripts/bot/reply.ts
+      ```
+    - **Preference or feedback** — extract the signal and append to `memory/preferences.md` under `## User feedback`, dated today. Then acknowledge in the thread:
+      ```bash
+      echo '{"thread_id":"<thread_id>","content":"Got it — saved to preferences."}' | bun run scripts/bot/reply.ts
+      ```
+    - **Command** (e.g. "skip this", "add to watchlist") — execute the action and confirm in the thread
+  - After incorporating, write `state/pending_feedback.json` back with `"feedback": []` to clear processed entries
 - If a watched listing sold or a notified listing was rejected → update `memory/calibration.md`

@@ -2,7 +2,9 @@
   "name": "claude-apartment-finder",
   "private": true,
   "scripts": {
-    "scrape": "bun run scripts/scraper/index.ts"
+    "scrape": "bun run scripts/scraper/index.ts",
+    "poll-reactions": "bun run scripts/bot/reaction-poll.ts",
+    "reply": "bun run scripts/bot/reply.ts"
   },
   "dependencies": {
     "playwright": "^1.52.0",
