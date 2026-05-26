@@ -34,7 +34,7 @@ bun run scripts/scraper/index.ts     # scrape and print new listings as JSON
 The scraper (`scripts/scraper/`) uses Playwright to render Booli pages, then extracts structured listing data from the embedded `__NEXT_DATA__` Apollo JSON rather than scraping the DOM. It outputs new listings (not in `state/last_run.json`) as a JSON array to stdout.
 
 Two Discord channels are in use:
-- **Listings forum** (`DISCORD_LISTING_FORUM_ID`) — one thread per listing notification, sent via `.claude/skills/notify-user/`. Use only for `route: notify` results.
+- **Listings forum** (`DISCORD_LISTING_CHANNEL_ID`) — one thread per listing notification, sent via `.claude/skills/notify-user/`. Use only for `route: notify` results.
 - **Agent inbox** (`DISCORD_AGENT_INBOX_CHANNEL_ID`) — plain text channel for all other agent communication. Use `scripts/bot/inbox.ts` for errors, permission requests, operational observations, preference questions, and anything else that isn't a listing presentation.
 
 All persistent state lives in plain files:
