@@ -2,6 +2,10 @@
 
 Accumulated from feedback over time. Updated after each run where the user responds to a notification.
 
+## Budget
+
+- **Hard max: 5,000,000 SEK list price** — bidding wars on listings above 5M are not viable. Listings above this threshold should be filtered out at scrape time (config.yaml `maxListPrice`).
+
 ## Location
 
 - Max 15 minutes walking distance to a grocery store
