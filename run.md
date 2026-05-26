@@ -148,3 +148,21 @@ After routing all results, apply any updates from subagent findings:
     - **Command** (e.g. "skip this", "add to watchlist") — execute the action and confirm in the thread
   - After incorporating, write `state/pending_feedback.json` back with `"feedback": []` to clear processed entries
 - If a watched listing sold or a notified listing was rejected → update `memory/calibration.md`
+
+## Agent inbox
+
+Any communication that is not a listing presentation must go to the agent-inbox channel via:
+
+```bash
+echo '{"title":"<subject>","body":"<detail>"}' | bun run scripts/bot/inbox.ts
+```
+
+Send a message to the inbox whenever:
+- A step fails or produces unexpected output (include the step name and error)
+- An env var is missing or misconfigured (name the variable and what it should contain)
+- The scraper returns zero listings unexpectedly (could be a Booli layout change or a block)
+- A preference or config question arises that only the user can resolve (e.g. conflicting signals, scope ambiguity)
+- A macro or market shift is significant enough to warrant a heads-up outside the normal notification
+- Anything else that requires human attention before the next run
+
+Do not use the listings forum channel for these — that channel is only for evaluated listing threads.

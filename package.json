@@ -4,7 +4,8 @@
   "scripts": {
     "scrape": "bun run scripts/scraper/index.ts",
     "poll-reactions": "bun run scripts/bot/reaction-poll.ts",
-    "reply": "bun run scripts/bot/reply.ts"
+    "reply": "bun run scripts/bot/reply.ts",
+    "inbox": "bun run scripts/bot/inbox.ts"
   },
   "dependencies": {
     "playwright": "^1.52.0",

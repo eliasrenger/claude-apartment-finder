@@ -12,13 +12,13 @@ Before making any decision during a run, check the `.claude/skills/` folder for 
 
 Allowed Bash scope is limited to what `run.md` requires: `git`, `bun`, `bunx`, and writing to files within this project directory. Do not install system packages, modify anything outside the project directory, or run commands not listed in `run.md`. If a step fails, log the error to the daily log, notify the user via Discord:
 ```bash
-echo '{"title":"⚠️ Agent run failed","body":"Failed at step: <step name>\nError: <brief description>"}' | bun run .claude/skills/notify-user/scripts/send.ts
+echo '{"title":"⚠️ Agent run failed","body":"Failed at step: <step name>\nError: <brief description>"}' | bun run scripts/bot/inbox.ts
 ```
 Then stop — do not attempt to repair the environment.
 
 If a useful action falls outside the permitted scope (e.g. a new command or tool would improve the run), do not attempt it. Instead send a Discord message explaining what you wanted to do and why, so the user can review and add it to the allowed list:
 ```bash
-echo '{"title":"💡 Agent permission request","body":"Action: <what action>\nReason: <why it would help>"}' | bun run .claude/skills/notify-user/scripts/send.ts
+echo '{"title":"💡 Agent permission request","body":"Action: <what action>\nReason: <why it would help>"}' | bun run scripts/bot/inbox.ts
 ```
 
 ## Commands
@@ -33,7 +33,9 @@ bun run scripts/scraper/index.ts     # scrape and print new listings as JSON
 
 The scraper (`scripts/scraper/`) uses Playwright to render Booli pages, then extracts structured listing data from the embedded `__NEXT_DATA__` Apollo JSON rather than scraping the DOM. It outputs new listings (not in `state/last_run.json`) as a JSON array to stdout.
 
-The notifier lives at `.claude/skills/notify-user/` — a Discord webhook wrapper that accepts `{"title":"...","body":"..."}` JSON on stdin and posts to a forum channel (creating a thread per notification) or a text channel.
+Two Discord channels are in use:
+- **Listings forum** (`DISCORD_CHANNEL_ID`) — one thread per listing notification, sent via `.claude/skills/notify-user/`. Use only for `route: notify` results.
+- **Agent inbox** (`DISCORD_AGENT_INBOX_CHANNEL_ID`) — plain text channel for all other agent communication. Use `scripts/bot/inbox.ts` for errors, permission requests, operational observations, preference questions, and anything else that isn't a listing presentation.
 
 All persistent state lives in plain files:
 - `state/last_run.json` — seen listing IDs for deduplication
