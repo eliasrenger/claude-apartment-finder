@@ -12,7 +12,7 @@ echo '{"title":"...","body":"..."}' | bun run ${CLAUDE_SKILL_DIR}/scripts/send.t
 ```
 
 The script delivers to Discord. Requires either:
-- `DISCORD_BOT_TOKEN` + `DISCORD_CHANNEL_ID` — preferred; enables reaction tracking and creates a forum thread per notification
+- `DISCORD_BOT_TOKEN` + `DISCORD_LISTING_FORUM_ID` — preferred; enables reaction tracking and creates a forum thread per notification
 - `DISCORD_FORUM_WEBHOOK_URL` (or `DISCORD_WEBHOOK_URL`) — fallback; sends via webhook, no reaction tracking
 
 When using the bot, include `booli_id` in the payload so the Discord thread ID is saved to `state/discord_messages.json` for later reaction polling.
