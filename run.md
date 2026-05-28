@@ -17,16 +17,6 @@ For the cron entry (runs at 07:00 daily):
 
 Execute the following steps in order.
 
-## 0. Poll for user feedback
-
-```bash
-bun run scripts/bot/reaction-poll.ts
-```
-
-Reads emoji reactions and thread replies from Discord for all tracked listing notifications since the last check. Writes `state/pending_feedback.json`. If `DISCORD_BOT_TOKEN` is not set, the script exits immediately — continue to step 1.
-
-Emoji meanings: ✅ positive (good pick) · ❌ negative (not interesting) · 👀 watch (keep monitoring) · 🔥 strong interest (move fast)
-
 ## 1. Update the repository
 
 ```bash
@@ -40,7 +30,35 @@ bun install
 bunx playwright install chromium
 ```
 
-## 3. Scrape listings
+## 3. Poll Discord and act on feedback
+
+```bash
+bun run scripts/bot/reaction-poll.ts
+```
+
+Reads emoji reactions and thread replies from Discord for all tracked listing notifications since the last check. Writes `state/pending_feedback.json`. If `DISCORD_BOT_TOKEN` is not set, the script exits immediately — continue to step 4.
+
+Emoji meanings: ✅ positive (good pick) · ❌ negative (not interesting) · 👀 watch (keep monitoring) · 🔥 strong interest (move fast)
+
+Read `state/pending_feedback.json`. If it has entries, process them now before scraping:
+
+- ✅ or 🔥 reactions → append a positive calibration note to `memory/calibration.md` and a preference signal to `memory/preferences.md` (e.g. "User reacted positively to listings with X trait")
+- ❌ reaction → append a negative calibration note and preference signal (e.g. "User rejected listing with Y — note the area/price/BRF")
+- 👀 reaction → note the user wants continued monitoring (update watchlist entry if applicable)
+- Text replies → classify each reply as one of:
+  - **Question** — answer it using your knowledge of the listing, BRF, and area. Post the answer back to the same thread:
+    ```bash
+    echo '{"thread_id":"<thread_id from entry>","content":"<your answer>"}' | bun run scripts/bot/reply.ts
+    ```
+  - **Preference or feedback** — extract the signal and append to `memory/preferences.md` under `## User feedback`, dated today. Then acknowledge in the thread:
+    ```bash
+    echo '{"thread_id":"<thread_id>","content":"Got it — saved to preferences."}' | bun run scripts/bot/reply.ts
+    ```
+  - **Command** (e.g. "skip this", "add to watchlist") — execute the action and confirm in the thread
+
+After processing, write `state/pending_feedback.json` back with `"feedback": []` to clear processed entries.
+
+## 4. Scrape listings
 
 ```bash
 bun run scripts/scraper/index.ts > /tmp/listings.json
@@ -48,17 +66,16 @@ bun run scripts/scraper/index.ts > /tmp/listings.json
 
 Outputs all new listings (not in `state/last_run.json`) as a JSON array to `/tmp/listings.json`. If the file is empty or the scraper errors, check for a block signal and stop — do not proceed with stale data.
 
-## 4. Load context
+## 5. Load context
 
 Read the following once and hold it in context — you will pass summaries to subagents, do not tell subagents to read these files themselves:
 - `config.yaml` — `notifyThreshold` and `watchThreshold`
-- `memory/preferences.md` — user preferences
+- `memory/preferences.md` — user preferences (already updated in step 3 if feedback was present)
 - `memory/market.md` — area pricing trends and comps
 - `memory/macro.md` — interest rate and macro context (note the date of last update)
-- `memory/calibration.md` — how past picks played out
-- `state/pending_feedback.json` — pending user feedback from Discord reactions/replies (from step 0). Note any entries for use in step 9.
+- `memory/calibration.md` — how past picks played out (already updated in step 3 if feedback was present)
 
-## 5. Pre-filter
+## 6. Pre-filter
 
 Read `/tmp/listings.json`. For each listing, apply a quick score using only the scraped data and the rubric in `.claude/skills/evaluate-listing/SKILL.md`.
 
@@ -67,7 +84,7 @@ Read `/tmp/listings.json`. For each listing, apply a quick score using only the 
 
 After scoring all listings, if the queue exceeds `maxEvaluations`, keep only the top `maxEvaluations` by pre-filter score and skip the rest (log them in the skipped file with reason "below cap"). This caps the number of subagents spawned per run regardless of how many listings are scraped.
 
-## 6. Spawn evaluation subagents
+## 7. Spawn evaluation subagents
 
 For all queued listings, spawn one subagent per listing **in parallel** (all in the same turn). Use `model: sonnet` for every subagent. Each subagent receives a self-contained prompt — do not tell it to read files from disk.
 
@@ -101,7 +118,7 @@ Last updated: <date from memory/macro.md in YYYY-MM-DD format>
 
 Wait for all subagents to complete before proceeding.
 
-## 7. Route results
+## 8. Route results
 
 For each subagent result (a JSON object per the evaluate-listing skill output format):
 
@@ -116,7 +133,7 @@ For each subagent result (a JSON object per the evaluate-listing skill output fo
 **`route: skip` or `disqualified: true`:**
 - Append a short entry to `listings/skipped/YYYY-MM-DD.md` with the score and reason
 
-## 8. Update state
+## 9. Update state
 
 Merge today's `booli_id` values with those already in `state/last_run.json`:
 
@@ -127,26 +144,11 @@ Merge today's `booli_id` values with those already in `state/last_run.json`:
 }
 ```
 
-## 9. Update memory
+## 10. Update memory
 
 After routing all results, apply any updates from subagent findings:
 - If any result includes `macro_update` → overwrite the body of `memory/macro.md`, keeping the `## Last updated: YYYY-MM-DD` header set to today's date
 - If any result includes `area_update` → upsert the row for that area in the `memory/market.md` table, updating the median, source, and `Last researched` date. If the area is not yet in the table, add a new row.
-- If `state/pending_feedback.json` has entries (from step 0), incorporate them:
-  - ✅ or 🔥 reactions → append a positive calibration note to `memory/calibration.md` and a preference signal to `memory/preferences.md` (e.g. "User reacted positively to listings with X trait")
-  - ❌ reaction → append a negative calibration note and preference signal (e.g. "User rejected listing with Y — note the area/price/BRF")
-  - 👀 reaction → note the user wants continued monitoring (update watchlist entry if applicable)
-  - Text replies → classify each reply as one of:
-    - **Question** — answer it using your knowledge of the listing, BRF, and area. Post the answer back to the same thread:
-      ```bash
-      echo '{"thread_id":"<thread_id from entry>","content":"<your answer>"}' | bun run scripts/bot/reply.ts
-      ```
-    - **Preference or feedback** — extract the signal and append to `memory/preferences.md` under `## User feedback`, dated today. Then acknowledge in the thread:
-      ```bash
-      echo '{"thread_id":"<thread_id>","content":"Got it — saved to preferences."}' | bun run scripts/bot/reply.ts
-      ```
-    - **Command** (e.g. "skip this", "add to watchlist") — execute the action and confirm in the thread
-  - After incorporating, write `state/pending_feedback.json` back with `"feedback": []` to clear processed entries
 - If a watched listing sold or a notified listing was rejected → update `memory/calibration.md`
 
 ## Agent inbox
