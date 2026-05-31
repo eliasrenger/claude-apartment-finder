@@ -3,7 +3,7 @@ import type { SearchConfig } from "../config/search-config";
 import type { PaginationPolicy, PaginationStats } from "./scraper";
 
 const MAX_PAGES = 30;
-const MAX_CONSECUTIVE_LOW_YIELD = 3;
+const MAX_CONSECUTIVE_LOW_YIELD = 2;
 
 // Patterns are anchored tightly to avoid false positives from embedded JS config.
 // "captcha" and "rate limit" were removed — both appear in Booli's own __NEXT_DATA__ config.
