@@ -13,6 +13,8 @@ export interface PaginationStats {
   new: number;
   consecutiveLowYield: number;
   blocked: boolean;
+  blockSignal?: string;
+  blockSnippet?: string;
 }
 
 export interface PaginationPolicy {

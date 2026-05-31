@@ -22,8 +22,20 @@ export class BooliScraper implements Scraper {
     const page = await this.context.newPage();
     try {
       const response = await page.goto(url, { waitUntil: "load" });
-      if (response && response.status() !== 200) {
-        log("warn", "Non-200 response from booli.se", { url, status: response.status() });
+      const status = response?.status() ?? null;
+      const headers = response?.headers() ?? {};
+      const title = await page.title();
+      log("info", "Page loaded", {
+        url,
+        status,
+        title,
+        server: headers["server"] ?? null,
+        cfRay: headers["cf-ray"] ?? null,
+        contentType: headers["content-type"] ?? null,
+        cacheStatus: headers["cf-cache-status"] ?? headers["x-cache"] ?? null,
+      });
+      if (status !== null && status !== 200) {
+        log("warn", "Non-200 response from booli.se", { url, status });
       }
       return await page.content();
     } finally {

@@ -7,16 +7,24 @@ export class BooliListingExtractor implements Extractor<Listing> {
   extract(html: string, url: string): Listing | null {
     const href = url.replace(BASE_URL, "");
     const identity = parseHref(href);
-    if (!identity) return null;
+    if (!identity) { log("warn", "Could not parse href", { url }); return null; }
 
     const apollo = parseApolloState(html);
-    if (!apollo) return null;
+    if (!apollo) { log("warn", "No __NEXT_DATA__ / APOLLO_STATE found", { url, htmlLength: html.length, hasNextData: html.includes("__NEXT_DATA__") }); return null; }
 
     const listing = findListingEntry(apollo);
-    if (!listing) return null;
+    if (!listing) { log("warn", "No Listing: key in Apollo state", { url, apolloKeys: Object.keys(apollo).slice(0, 10) }); return null; }
 
     return buildListing(listing, apollo, identity, href);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function log(level: string, message: string, data?: Record<string, unknown>): void {
+  console.log(JSON.stringify({ level, message, ...data, ts: new Date().toISOString() }));
 }
 
 // ---------------------------------------------------------------------------
